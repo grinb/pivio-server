@@ -9,7 +9,7 @@ pipeline {
       stage('Gradle Build') {
         steps {
           sh 'java -version'
-          sh './gradlew'
+          sh './gradlew build'
         }
       }
       stage('Build and Run Containers') {
