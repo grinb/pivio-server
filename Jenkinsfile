@@ -15,7 +15,7 @@ pipeline {
       stage('Gradle Build') {
         steps {
           sh 'java -version'
-          sh 'gradle build'
+          sh './gradlew build'
         }
       }
       stage('Build and Run Containers') {
