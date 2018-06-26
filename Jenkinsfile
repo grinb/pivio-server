@@ -18,9 +18,9 @@ pipeline {
           sh './gradlew build -x test'
         }
       }
-      stage('Build and Run Containers') {
+      stage('Build Image') {
         steps {
-          sh 'docker-compose up'
+          docker.build("pivio-server")
         }
       }
     }
