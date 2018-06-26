@@ -15,12 +15,12 @@ pipeline {
       stage('Gradle Build') {
         steps {
           sh 'java -version'
-          sh './gradle build'
+          sh 'gradle build'
         }
       }
       stage('Build and Run Containers') {
         steps {
-          sh './docker-compose up'
+          sh 'docker-compose up'
         }
       }
     }
