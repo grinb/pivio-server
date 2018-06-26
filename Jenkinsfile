@@ -20,7 +20,10 @@ pipeline {
       }
       stage('Build Image') {
         steps {
-          docker.build("pivio-server")
+            script
+            {
+              docker.build("pivio-server")
+            }
         }
       }
     }
