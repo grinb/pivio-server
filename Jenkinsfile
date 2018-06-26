@@ -8,6 +8,7 @@ pipeline {
       }
       stage('Gradle Build') {
         steps {
+          sh 'java -version'
           sh './gradlew build'
         }
       }
