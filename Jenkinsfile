@@ -1,11 +1,5 @@
 pipeline {
-  agent
-    {
-        node
-        {
-          label 'generic'
-       }
-     }
+    agent any
     stages {
       stage('checkout'){
         steps {
