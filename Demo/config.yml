@@ -1,0 +1,51 @@
+security:
+  realm: jenkins_database
+  adminPassword: ${JENKINS_ADMIN_PASSWORD}
+
+  remove_master_envvars:
+  - '.*PASSWORD.*'
+
+tools:
+  installations:
+    MVN-3.5.0:
+      type: maven
+      installers:
+        - id: '3.5.0'
+clouds:
+  docker-cloud:
+    type: docker
+    dockerHostUri: 'unix:///var/run/docker.sock'
+    templates:
+      - name: docker-slave
+        image: odavid/jenkins-jnlp-slave:latest
+        labels:
+          - generic
+        remoteFs: /home/jenkins
+        jvmArgs: -Xmx1g
+        volumes:
+          - '/var/run/docker.sock:/var/run/docker.sock'
+        instanceCap: '10'
+credentials:
+  dockerHub:
+    type: userpass
+    username: <docker-hub user name>
+    password: <docker-hub password>
+  gitsshkey:
+    type: sshkey
+    description: gitsshkey
+    username: < github username >
+    passphrase: 
+    privatekey: |
+      -----BEGIN RSA PRIVATE KEY-----
+      your ssh should be here, with all lines idented to the left as this line is ...
+      -----END RSA PRIVATE KEY-----
+seed_jobs:
+  Deploy-pivio-server:
+    source:
+      remote: https://github.com/grinb/pivio-server
+      branch: 'master'
+    triggers:
+      pollScm: 'H/2 * * * *'
+      periodic: '@hourly'
+    pipeline: Jenkinsfile
+    executeWhen: always #firstTimeOnly always never
