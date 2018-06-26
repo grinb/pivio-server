@@ -18,13 +18,24 @@ pipeline {
           sh './gradlew build -x test'
         }
       }
-      stage('Build Image') {
+      stage('Docker build') {
         steps {
             script
             {
-              docker.build("pivio-server")
+              docker.build("eran-pivio-server")
             }
         }
       }
-    }
+      stage('Publish') {
+           steps {
+              script
+	             {
+                  docker.withRegistry("https://registry.hub.docker.com", "dockerHub")
+		                {
+                	   docker.image("eran-pivio-server").push()
+                    }
+              }
+           }
+      }
+}
 }
